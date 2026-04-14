@@ -1,0 +1,208 @@
+<style>
+.db-wrap{padding:1rem 0 1.5rem}
+.filter-bar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.badge{font-size:11px;padding:3px 10px;border-radius:var(--border-radius-md);cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);transition:all .15s}
+.badge.active{background:#FAEEDA;color:#633806;border-color:#FAC775}
+.metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1rem}
+.mc{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px}
+.mc-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
+.mc-value{font-size:22px;font-weight:500}
+.mc-sub{font-size:10px;color:var(--color-text-tertiary);margin-top:2px}
+.chart-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:10px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px}
+.sec{font-size:10px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;font-size:11px;color:var(--color-text-secondary)}
+.ld{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.hm-outer{display:grid;grid-template-columns:32px 1fr;gap:0;align-items:center}
+.hm-day{font-size:10px;color:var(--color-text-secondary);text-align:right;padding-right:6px;line-height:1;height:16px;display:flex;align-items:center;justify-content:flex-end}
+.hm-row{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));gap:2px;height:16px;margin-bottom:2px}
+.hm-cell{border-radius:2px;height:16px;cursor:default;transition:opacity .1s}
+.hm-cell:hover{opacity:.75}
+.hm-hrs{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));gap:2px;margin-bottom:4px}
+.hm-hlabel{font-size:9px;color:var(--color-text-tertiary);text-align:center}
+.insight-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+.insight{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px}
+.ins-head{font-size:10px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.ins-body{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.ins-hi{color:var(--color-text-primary);font-weight:500}
+</style>
+<div class="db-wrap">
+<div class="filter-bar">
+  <span style="font-size:11px;color:var(--color-text-tertiary)">Airline:</span>
+  <span class="badge active" onclick="setFilter('all',this)">All airlines</span>
+  <span class="badge" onclick="setFilter(0,this)">Ryanair</span>
+  <span class="badge" onclick="setFilter(1,this)">Aer Lingus</span>
+  <span class="badge" onclick="setFilter(3,this)">British Airways</span>
+  <span class="badge" onclick="setFilter(4,this)">EasyJet</span>
+  <span class="badge" onclick="setFilter(6,this)">KLM</span>
+</div>
+
+<div class="metric-grid">
+  <div class="mc"><div class="mc-label">Flights analysed</div><div class="mc-value" id="m1">12,480</div><div class="mc-sub">Q4 2024</div></div>
+  <div class="mc"><div class="mc-label">Avg delay</div><div class="mc-value" id="m2" style="color:#BA7517">14.3 min</div><div class="mc-sub" id="m2s">+2.1 vs prev qtr</div></div>
+  <div class="mc"><div class="mc-label">On-time rate</div><div class="mc-value" id="m3" style="color:#0F6E56">76.8%</div><div class="mc-sub">Target: 80%</div></div>
+  <div class="mc"><div class="mc-label">Avg turnaround</div><div class="mc-value" id="m4">47 min</div><div class="mc-sub">Sched: 41 min</div></div>
+</div>
+
+<div class="chart-pair">
+  <div class="card">
+    <div class="sec">Average delay by airline (min)</div>
+    <div class="leg"><span style="display:flex;align-items:center;gap:4px"><span class="ld" style="background:#EF9F27"></span>Within 15 min</span><span style="display:flex;align-items:center;gap:4px"><span class="ld" style="background:#E24B4A"></span>Exceeds target</span><span style="display:flex;align-items:center;gap:4px"><span class="ld" style="background:#D3D1C7"></span>Best in class</span></div>
+    <div style="position:relative;height:192px"><canvas id="c1"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="sec">Delay causes</div>
+    <div class="leg" id="leg2"></div>
+    <div style="position:relative;height:192px"><canvas id="c2"></canvas></div>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:10px">
+  <div class="sec">Peak disruption — avg delay (min) by hour &amp; day of week</div>
+  <div id="hmap"></div>
+  <div style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:10px;color:var(--color-text-tertiary)">
+    <span>Low delay</span>
+    <div style="display:flex;gap:3px">
+      <div style="width:12px;height:8px;border-radius:1px;background:#FAEEDA"></div>
+      <div style="width:12px;height:8px;border-radius:1px;background:#FAC775"></div>
+      <div style="width:12px;height:8px;border-radius:1px;background:#EF9F27"></div>
+      <div style="width:12px;height:8px;border-radius:1px;background:#BA7517"></div>
+      <div style="width:12px;height:8px;border-radius:1px;background:#854F0B"></div>
+    </div>
+    <span>High delay</span>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:10px">
+  <div class="sec">Turnaround bottleneck — scheduled vs actual (min)</div>
+  <div class="leg"><span style="display:flex;align-items:center;gap:4px"><span class="ld" style="background:#1D9E75"></span>Scheduled</span><span style="display:flex;align-items:center;gap:4px"><span class="ld" style="background:#E24B4A"></span>Actual</span></div>
+  <div style="position:relative;height:200px"><canvas id="c3"></canvas></div>
+</div>
+
+<div class="insight-row">
+  <div class="insight"><div class="ins-head">Top bottleneck</div><div class="ins-body">Catering overruns scheduled time by <span class="ins-hi">+8 min</span> on average — largest single contributor to knock-on delays</div></div>
+  <div class="insight"><div class="ins-head">Peak disruption</div><div class="ins-body">Friday <span class="ins-hi">17:00–19:00</span> is the highest-risk window. Cascading delays affect 34% of evening rotations</div></div>
+  <div class="insight"><div class="ins-head">Scheduling gap</div><div class="ins-body">Buffer time between rotations averages <span class="ins-hi">6 min below</span> what operational data suggests is needed</div></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const AIRLINES=['Ryanair','Aer Lingus','Lufthansa','British Airways','EasyJet','Air France','KLM','Iberia'];
+const DELAY=[18,12,9,22,15,11,8,20];
+const ONTIME=[72,81,88,68,76,84,90,71];
+const FLIGHTS=[2100,1800,980,1650,1900,1100,760,1190];
+
+const CAUSES=['Late aircraft','Weather','ATC restriction','Maintenance','Crew scheduling'];
+const CPCTS=[34,22,19,15,10];
+const CCOLS=['#BA7517','#378ADD','#1D9E75','#E24B4A','#7F77DD'];
+
+const STAGES=['Deboarding','Cleaning','Catering','Fueling','Baggage out','Baggage in','Boarding'];
+const SCHED=[12,15,20,25,18,20,25];
+const ACTUAL=[14,19,28,26,23,25,31];
+const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+function seed(s){let x=s;return()=>{x=Math.sin(x)*10000;return x-Math.floor(x)}}
+const rng=seed(42);
+
+const HMAP=DAYS.map((_,d)=>Array.from({length:24},(_,h)=>{
+  let v=3;
+  if(h>=6&&h<=9)v+=10+rng()*10;
+  else if(h>=16&&h<=19)v+=12+rng()*14;
+  else if(h>=10&&h<=15)v+=4+rng()*6;
+  else v+=rng()*4;
+  if(d===4)v*=1.35;
+  if(d===5||d===6)v*=0.8;
+  return Math.round(v);
+}));
+
+function hmColor(v){
+  if(v<5)return'#FAEEDA';
+  if(v<10)return'#FAC775';
+  if(v<18)return'#EF9F27';
+  if(v<25)return'#BA7517';
+  return'#854F0B';
+}
+
+function buildHeatmap(){
+  const hrs=Array.from({length:24},(_,i)=>i);
+  let html='<div class="hm-outer"><div></div><div class="hm-hrs">';
+  hrs.forEach(h=>{html+=`<div class="hm-hlabel">${h%6===0?(h<10?'0'+h:h)+':00':''}</div>`;});
+  html+='</div>';
+  DAYS.forEach((day,d)=>{
+    html+=`<div class="hm-day">${day}</div><div class="hm-row">`;
+    HMAP[d].forEach((v,h)=>{
+      html+=`<div class="hm-cell" style="background:${hmColor(v)}" title="${day} ${h<10?'0'+h:h}:00 — ${v} min avg delay"></div>`;
+    });
+    html+='</div>';
+  });
+  html+='</div>';
+  document.getElementById('hmap').innerHTML=html;
+}
+
+let c1,c2,c3;
+function buildCharts(idxs){
+  const labs=idxs.map(i=>AIRLINES[i]);
+  const dels=idxs.map(i=>DELAY[i]);
+  const cols=dels.map(d=>d>15?'#E24B4A':d<10?'#D3D1C7':'#EF9F27');
+
+  const tot=idxs.reduce((s,i)=>s+FLIGHTS[i],0);
+  const avgD=(dels.reduce((a,b)=>a+b,0)/dels.length).toFixed(1);
+  const avgO=(idxs.reduce((s,i)=>s+ONTIME[i],0)/idxs.length).toFixed(1);
+  document.getElementById('m1').textContent=tot.toLocaleString();
+  document.getElementById('m2').textContent=avgD+' min';
+  document.getElementById('m3').textContent=avgO+'%';
+
+  if(c1)c1.destroy();
+  c1=new Chart(document.getElementById('c1'),{
+    type:'bar',
+    data:{labels:labs,datasets:[{data:dels,backgroundColor:cols,borderRadius:3,borderSkipped:false}]},
+    options:{
+      indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.raw+' min avg delay'}}},
+      scales:{
+        x:{grid:{color:'rgba(130,128,119,.1)',lineWidth:.5},ticks:{font:{size:10},color:'#888780',callback:v=>v+'m'},border:{display:false}},
+        y:{grid:{display:false},ticks:{font:{size:10},color:'#5F5E5A'},border:{display:false}}
+      }
+    }
+  });
+
+  if(c2)c2.destroy();
+  c2=new Chart(document.getElementById('c2'),{
+    type:'doughnut',
+    data:{labels:CAUSES,datasets:[{data:CPCTS,backgroundColor:CCOLS,borderWidth:0,hoverOffset:4}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,cutout:'60%',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.label+': '+c.raw+'%'}}}
+    }
+  });
+  document.getElementById('leg2').innerHTML=CAUSES.map((c,i)=>`<span style="display:flex;align-items:center;gap:4px"><span class="ld" style="background:${CCOLS[i]}"></span>${c} ${CPCTS[i]}%</span>`).join('');
+
+  if(c3)c3.destroy();
+  c3=new Chart(document.getElementById('c3'),{
+    type:'bar',
+    data:{labels:STAGES,datasets:[
+      {label:'Scheduled',data:SCHED,backgroundColor:'#1D9E75',borderRadius:3,borderSkipped:false},
+      {label:'Actual',data:ACTUAL,backgroundColor:'#E24B4A',borderRadius:3,borderSkipped:false}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:10},color:'#888780',maxRotation:25,autoSkip:false},border:{display:false}},
+        y:{grid:{color:'rgba(130,128,119,.1)',lineWidth:.5},ticks:{font:{size:10},color:'#888780',callback:v=>v+'m'},border:{display:false}}
+      }
+    }
+  });
+}
+
+function setFilter(f,el){
+  document.querySelectorAll('.badge').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  const idxs=f==='all'?AIRLINES.map((_,i)=>i):[f];
+  buildCharts(idxs);
+}
+
+buildHeatmap();
+buildCharts(AIRLINES.map((_,i)=>i));
+</script>
