@@ -117,9 +117,31 @@ The filter layer re-runs chart instances against a subset of the airline array w
 
 ---
 
+## Dashboard Panels
+
+| Panel | What it shows | Key finding |
+|---|---|---|
+| Airline delay comparison | Avg delay per carrier (min) | KLM best at 8 min; British Airways worst at 22 min |
+| Delay causes | Root-cause share (%) | Late aircraft (34%) and weather (22%) account for over half |
+| Peak disruption heatmap | Avg delay by hour × day | Fri 17–19:00 is the critical window |
+| Turnaround breakdown | Scheduled vs actual per stage | Catering (+8 min) and boarding (+6 min) are primary overruns |
+
+---
+
+## Roadmap
+
+- [ ] CSV upload — replace simulated data with real operational exports
+- [ ] Route-level drill-down (origin → destination pairs)
+- [ ] Delay trend over time (week-on-week / month-on-month line chart)
+- [ ] Configurable alert thresholds — flag carriers or windows that exceed targets
+- [ ] Export summary to PDF debrief report
+- [ ] Passenger impact scoring per delay cause category
+
+---
+
 ## License
 
-MIT — see [LICENSE](LICENSE) for details
+MIT - see [LICENSE](LICENSE) for details
 
 ---
 
