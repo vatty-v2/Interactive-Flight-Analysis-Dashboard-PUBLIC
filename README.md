@@ -24,3 +24,11 @@ It simulates a dataset of 12,500+ flight records across 8 European carriers, wit
 This project was originally developed as a private prototype and later published here as a public portfolio project. The commit history has been condensed as part of that transition.
 
 ---
+
+## Demo
+
+> Live dashboard showing airline delay comparison, peak disruption heatmap, and turnaround bottleneck breakdown
+
+![Dashboard Preview](flight_dashboard_showcase.gif)
+
+---
