@@ -98,3 +98,29 @@ Each cell represents the average delay (minutes) for a given hour and day of the
 Any bar where **red (actual)** exceeds **green (scheduled)** marks a bottleneck stage. Catering is the largest single overrun at +8 min average, followed by boarding at +6 min.
 
 ---
+
+## How the Simulation Works
+
+The dataset is generated entirely at runtime from a **seeded pseudo-random number generator**. No external data file is loaded. The seed is fixed, so the same values appear on every page load.
+
+Delay values per airline, cause distributions, and heatmap intensities are all tuned to reflect realistic European short-haul operations:
+
+```
+Heatmap baseline      ← ~3 min average delay outside peak hours
+Morning peak boost    ← +10-20 min applied to 06:00-09:00 slots
+Evening peak boost    ← +12-26 min applied to 16:00-19:00 slots
+Friday multiplier     ← ×1.35 across all hours
+Weekend reduction     ← ×0.80 (lighter schedule density)
+```
+
+The filter layer re-runs chart instances against a subset of the airline array without reloading the page, using Chart.js `destroy()` and rebuild.
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE) for details
+
+---
+
+*Not affiliated with any airline, operations control centre, or aviation data provider.*
