@@ -35,13 +35,13 @@ This project was originally developed as a private prototype and later published
 
 ## Features
 
-- **Airline Delay Comparison** — horizontal bar chart across 8 carriers, colour-coded by severity (within target / exceeds target / best-in-class)
-- **Delay Cause Breakdown** — doughnut chart across 5 root-cause categories (late aircraft, weather, ATC restriction, maintenance, crew scheduling)
-- **Peak Disruption Heatmap** — hour × day-of-week grid showing average delay intensity across a full operational week, with hover tooltips per cell
-- **Turnaround Bottleneck Chart** — scheduled vs actual time per stage (deboarding through boarding), isolating where overruns accumulate
-- **Airline Filter** — click any carrier badge to scope all metrics and summary cards to that airline instantly
-- **Operational Insight Panel** — plain-language summary of the three most actionable findings at the bottom of the dashboard
-- **Zero dependencies to install** — Chart.js loaded from CDN; everything else is vanilla JS and CSS
+- **Airline Delay Comparison** - horizontal bar chart across 8 carriers, colour-coded by severity (within target / exceeds target / best-in-class)
+- **Delay Cause Breakdown** - doughnut chart across 5 root-cause categories (late aircraft, weather, ATC restriction, maintenance, crew scheduling)
+- **Peak Disruption Heatmap** - hour × day-of-week grid showing average delay intensity across a full operational week, with hover tooltips per cell
+- **Turnaround Bottleneck Chart** - scheduled vs actual time per stage (deboarding through boarding), isolating where overruns accumulate
+- **Airline Filter** - click any carrier badge to scope all metrics and summary cards to that airline instantly
+- **Operational Insight Panel** - plain-language summary of the three most actionable findings at the bottom of the dashboard
+- **Zero dependencies to install** - Chart.js loaded from CDN; everything else is vanilla JS and CSS
 
 ---
 
@@ -50,11 +50,11 @@ This project was originally developed as a private prototype and later published
 | Layer | Technology |
 |---|---|
 | Charts | [Chart.js 4.4.1](https://www.chartjs.org/) via CDN |
-| Heatmap | Vanilla HTML/CSS grid — no library |
+| Heatmap | Vanilla HTML/CSS grid - no library |
 | Logic | Vanilla JavaScript (ES6+) |
 | Styling | Pure CSS with CSS variables |
-| Data | Simulated — seeded PRNG for deterministic output |
-| Deployment | Single HTML file — open in any browser |
+| Data | Simulated - seeded PRNG for deterministic output |
+| Deployment | Single HTML file - open in any browser |
 
 ---
 
@@ -91,7 +91,7 @@ Click any badge in the filter bar at the top to scope the delay chart and summar
 
 Each cell represents the average delay (minutes) for a given hour and day of the week. Colours run from cream (low, <5 min) through amber to dark brown (high, >25 min). Hover any cell for the exact value.
 
-> Friday 17:00–19:00 is consistently the highest-disruption window in the dataset — cascading delays affect 34% of evening rotations.
+> Friday 17:00–19:00 is consistently the highest-disruption window in the dataset - cascading delays affect 34% of evening rotations.
 
 ### Reading the turnaround chart
 
