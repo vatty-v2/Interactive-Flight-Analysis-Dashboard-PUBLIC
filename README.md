@@ -80,3 +80,21 @@ xdg-open flight_analysis_dashboard.html    # Linux
 Or just double-click the file in Finder / File Explorer.
 
 ---
+
+## Usage
+
+### Filtering by airline
+
+Click any badge in the filter bar at the top to scope the delay chart and summary metrics to a single carrier. Click **All airlines** to reset.
+
+### Reading the heatmap
+
+Each cell represents the average delay (minutes) for a given hour and day of the week. Colours run from cream (low, <5 min) through amber to dark brown (high, >25 min). Hover any cell for the exact value.
+
+> Friday 17:00–19:00 is consistently the highest-disruption window in the dataset — cascading delays affect 34% of evening rotations.
+
+### Reading the turnaround chart
+
+Any bar where **red (actual)** exceeds **green (scheduled)** marks a bottleneck stage. Catering is the largest single overrun at +8 min average, followed by boarding at +6 min.
+
+---
