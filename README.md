@@ -45,6 +45,19 @@ This project was originally developed as a private prototype and later published
 
 ---
 
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Charts | [Chart.js 4.4.1](https://www.chartjs.org/) via CDN |
+| Heatmap | Vanilla HTML/CSS grid — no library |
+| Logic | Vanilla JavaScript (ES6+) |
+| Styling | Pure CSS with CSS variables |
+| Data | Simulated — seeded PRNG for deterministic output |
+| Deployment | Single HTML file — open in any browser |
+
+---
+
 ## Getting Started
 
 ### 1. Clone the repo
