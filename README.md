@@ -32,3 +32,15 @@ This project was originally developed as a private prototype and later published
 ![Dashboard Preview](flight_dashboard_showcase.gif)
 
 ---
+
+## Features
+
+- **Airline Delay Comparison** — horizontal bar chart across 8 carriers, colour-coded by severity (within target / exceeds target / best-in-class)
+- **Delay Cause Breakdown** — doughnut chart across 5 root-cause categories (late aircraft, weather, ATC restriction, maintenance, crew scheduling)
+- **Peak Disruption Heatmap** — hour × day-of-week grid showing average delay intensity across a full operational week, with hover tooltips per cell
+- **Turnaround Bottleneck Chart** — scheduled vs actual time per stage (deboarding through boarding), isolating where overruns accumulate
+- **Airline Filter** — click any carrier badge to scope all metrics and summary cards to that airline instantly
+- **Operational Insight Panel** — plain-language summary of the three most actionable findings at the bottom of the dashboard
+- **Zero dependencies to install** — Chart.js loaded from CDN; everything else is vanilla JS and CSS
+
+---
