@@ -44,3 +44,26 @@ This project was originally developed as a private prototype and later published
 - **Zero dependencies to install** — Chart.js loaded from CDN; everything else is vanilla JS and CSS
 
 ---
+
+## Getting Started
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/vatty-v2/Interactive-Flight-Analysis-Dashboard-PUBLIC.git
+cd Interactive-Flight-Analysis-Dashboard-PUBLIC
+```
+
+### 2. Open the dashboard
+
+No build step required. Open the file directly in your browser:
+
+```bash
+open flight_analysis_dashboard.html        # macOS
+start flight_analysis_dashboard.html       # Windows
+xdg-open flight_analysis_dashboard.html    # Linux
+```
+
+Or just double-click the file in Finder / File Explorer.
+
+---
